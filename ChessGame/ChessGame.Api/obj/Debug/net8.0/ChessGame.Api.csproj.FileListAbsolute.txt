@@ -1,8 +1,0 @@
-/Users/meguazy/distributed_chess/ChessGame/ChessGame.Api/obj/Debug/net8.0/ChessGame.Api.csproj.AssemblyReference.cache
-/Users/meguazy/distributed_chess/ChessGame/ChessGame.Api/obj/Debug/net8.0/ChessGame.Api.GeneratedMSBuildEditorConfig.editorconfig
-/Users/meguazy/distributed_chess/ChessGame/ChessGame.Api/obj/Debug/net8.0/ChessGame.Api.AssemblyInfoInputs.cache
-/Users/meguazy/distributed_chess/ChessGame/ChessGame.Api/obj/Debug/net8.0/ChessGame.Api.AssemblyInfo.cs
-/Users/meguazy/distributed_chess/ChessGame/ChessGame.Api/obj/Debug/net8.0/ChessGame.Api.csproj.CoreCompileInputs.cache
-/Users/meguazy/distributed_chess/ChessGame/ChessGame.Api/obj/Debug/net8.0/ChessGame.Api.MvcApplicationPartsAssemblyInfo.cs
-/Users/meguazy/distributed_chess/ChessGame/ChessGame.Api/obj/Debug/net8.0/ChessGame.Api.MvcApplicationPartsAssemblyInfo.cache
-/Users/meguazy/distributed_chess/ChessGame/ChessGame.Api/obj/Debug/net8.0/ChessGame.Api.sourcelink.json

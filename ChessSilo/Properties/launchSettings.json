@@ -4,9 +4,11 @@
     "Producer": {
       "commandName": "Project",
       "dotnetRunMessages": true,
-      "applicationUrl": "https://localhost:7164;",
+      "applicationUrl": "http://localhost:7164;",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "DOTNET_LOG_LEVEL": "Information", 
+        "DOTNET_RUNNING_IN_CONTAINER": "false"
       }
     }
   }

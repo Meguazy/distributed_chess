@@ -27,8 +27,7 @@ namespace ChessSilo.Controllers
             _logger.LogInformation("Starting a new game: White - {PlayerWhite}, Black - {PlayerBlack}", 
                 request.PlayerWhiteName, request.PlayerBlackName);
 
-            try
-            {
+            try{
                 var gameGrain = _clusterClient.GetGrain<IGameGrain>(Guid.NewGuid());
                 var playerWhiteGrain = _clusterClient.GetGrain<IPlayerGrain>(Guid.NewGuid());
                 var playerBlackGrain = _clusterClient.GetGrain<IPlayerGrain>(Guid.NewGuid());
@@ -44,8 +43,7 @@ namespace ChessSilo.Controllers
 
                 return Ok("Game started.");
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex){
                 // Log any exceptions
                 _logger.LogError(ex, "Error occurred while starting the game.");
                 return StatusCode(500, "An error occurred while starting the game.");

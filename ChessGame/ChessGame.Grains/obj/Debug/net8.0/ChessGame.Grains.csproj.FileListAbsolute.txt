@@ -1,0 +1,5 @@
+/Users/meguazy/distributed_chess/ChessGame/ChessGame.Grains/obj/Debug/net8.0/ChessGame.Grains.GeneratedMSBuildEditorConfig.editorconfig
+/Users/meguazy/distributed_chess/ChessGame/ChessGame.Grains/obj/Debug/net8.0/ChessGame.Grains.AssemblyInfoInputs.cache
+/Users/meguazy/distributed_chess/ChessGame/ChessGame.Grains/obj/Debug/net8.0/ChessGame.Grains.AssemblyInfo.cs
+/Users/meguazy/distributed_chess/ChessGame/ChessGame.Grains/obj/Debug/net8.0/ChessGame.Grains.csproj.CoreCompileInputs.cache
+/Users/meguazy/distributed_chess/ChessGame/ChessGame.Grains/obj/Debug/net8.0/ChessGame.Grains.sourcelink.json

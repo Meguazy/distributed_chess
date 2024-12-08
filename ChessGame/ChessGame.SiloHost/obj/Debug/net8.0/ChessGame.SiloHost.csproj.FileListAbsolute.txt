@@ -1,0 +1,5 @@
+/Users/meguazy/distributed_chess/ChessGame/ChessGame.SiloHost/obj/Debug/net8.0/ChessGame.SiloHost.GeneratedMSBuildEditorConfig.editorconfig
+/Users/meguazy/distributed_chess/ChessGame/ChessGame.SiloHost/obj/Debug/net8.0/ChessGame.SiloHost.AssemblyInfoInputs.cache
+/Users/meguazy/distributed_chess/ChessGame/ChessGame.SiloHost/obj/Debug/net8.0/ChessGame.SiloHost.AssemblyInfo.cs
+/Users/meguazy/distributed_chess/ChessGame/ChessGame.SiloHost/obj/Debug/net8.0/ChessGame.SiloHost.csproj.CoreCompileInputs.cache
+/Users/meguazy/distributed_chess/ChessGame/ChessGame.SiloHost/obj/Debug/net8.0/ChessGame.SiloHost.sourcelink.json

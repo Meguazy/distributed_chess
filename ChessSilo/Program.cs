@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using Orleans.Hosting;
 
-namespace MicrosoftOrleansSilo
+namespace ChessSilo
 {
     public class Program
     {

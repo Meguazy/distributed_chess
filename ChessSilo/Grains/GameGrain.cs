@@ -33,4 +33,10 @@ public class GameGrain : Grain, IGameGrain
     {
         return Task.FromResult(_chessGame.MakeMove(move));
     }
+
+    public async Task<string[,]> GetBoardStateAsync()
+    {   
+        Chessboard _chessboard = _chessGame.Chessboard;
+        return _chessboard.GetBoardState(); // Assuming _chessboard is your Chessboard instance
+    }
 }

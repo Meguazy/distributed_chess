@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Hosting;
 using Orleans.Hosting;
 using Orleans;
@@ -36,8 +37,13 @@ namespace ChessSilo
             app.UseHttpsRedirection();
             app.UseAuthorization();
 
+            app.UseStaticFiles();
+            
             // Map controllers (endpoints)
             app.MapControllers();
+
+            // Redirect to index.html on root URL
+            app.MapGet("/", () => Results.Redirect("/index.html"));
 
             // Run the application
             app.Run();

@@ -1,0 +1,24 @@
+version: '3.2'
+
+services:
+  db:
+    image: mcr.microsoft.com/azure-sql-edge
+    environment:
+      - SA_PASSWORD=${SA_PASSWORD}
+      - ACCEPT_EULA=${ACCEPT_EULA}
+    ports:
+      - 1433:1433
+    networks:
+      - net
+
+  vault:
+    image: hashicorp/vault:latest
+    environment:
+      VAULT_DEV_ROOT_TOKEN_ID: ${VAULT_DEV_ROOT_TOKEN_ID}
+    ports:
+      - 8200:8200
+    networks:
+      - net
+
+networks:
+  net:

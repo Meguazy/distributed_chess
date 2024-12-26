@@ -3,17 +3,63 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Hosting;
 using Orleans.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Orleans;
+using VaultSharp;
+using VaultSharp.V1.AuthMethods;
+using VaultSharp.V1.AuthMethods.Token;
+using VaultSharp.V1.Commons;
+using System.Threading.Tasks;
+using System;
+using ChessSilo.Persistence;
+
 
 namespace ChessSilo
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
+            // Initialize one of the several auth methods.
+            IAuthMethodInfo authMethod = new TokenAuthMethodInfo("testtoken");
+
+            // Initialize settings. You can also set proxies, custom delegates etc. here.
+            var vaultClientSettings = new VaultClientSettings("http://localhost:8200", authMethod);
+
+            IVaultClient vaultClient = new VaultClient(vaultClientSettings);
+            var dbUsername = "";
+            var dbPassword = "";
+            try
+            {
+                // Fetch the secret from the KV Secrets Engine (v2)
+                Secret<SecretData> secret = await vaultClient.V1.Secrets.KeyValue.V2.ReadSecretAsync(
+                    path: "configs",
+                    mountPoint: "database"
+                );
+
+                // Retrieve values from the secret
+                dbUsername = secret.Data.Data["username"].ToString();
+                dbPassword = secret.Data.Data["password"].ToString();
+
+                Console.WriteLine($"Database Username: {dbUsername}");
+                Console.WriteLine($"Database Password: {dbPassword}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error fetching secrets: {ex.Message}");
+            }
+
+            // Build the connection string dynamically
+            var connectionString = $"Server=localhost,1433;Database=EventBus;User Id={dbUsername};Password={dbPassword};TrustServerCertificate=true";
+
             // Create and run the web application
             var builder = WebApplication.CreateBuilder(args);
 
+            // Add services to the container
+            builder.Services.AddDbContext<GamesContext>(options =>
+                options.UseSqlServer(connectionString)
+            );
+            
             // Add services for controllers
             builder.Services.AddControllers();
 
@@ -33,6 +79,13 @@ namespace ChessSilo
             // Build the application
             var app = builder.Build();
 
+            // Create database
+            using (var scope = app.Services.CreateScope())
+            {
+                var db = scope.ServiceProvider.GetRequiredService<GamesContext>();
+                db.Database.EnsureCreated();
+            }
+
             // Add middleware to the app pipeline
             app.UseHttpsRedirection();
             app.UseAuthorization();
@@ -48,5 +101,18 @@ namespace ChessSilo
             // Run the application
             app.Run();
         }
+    }
+}
+
+public class GamesContext : DbContext
+{
+    public DbSet<Game> Games { get; set; } = default!;
+    public GamesContext(DbContextOptions<GamesContext> options) : base(options)
+    {
+    }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.ApplyConfiguration(new GameConfiguration());
     }
 }

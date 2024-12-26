@@ -6,6 +6,8 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ChessSilo.Persistence; // Add this line to import the Game class
+using Microsoft.EntityFrameworkCore;  // This is required for ToListAsync()
 
 namespace ChessSilo.Controllers
 {
@@ -15,12 +17,13 @@ namespace ChessSilo.Controllers
     {
         private readonly IClusterClient _clusterClient;
         private readonly ILogger<ChessGameController> _logger;
-        private static readonly ConcurrentDictionary<Guid, string> _activeGames = new(); // Track active games
+        private readonly GamesContext _dbContext;
 
-        public ChessGameController(IClusterClient clusterClient, ILogger<ChessGameController> logger)
+        public ChessGameController(IClusterClient clusterClient, ILogger<ChessGameController> logger, GamesContext dbContext)
         {
             _clusterClient = clusterClient;
             _logger = logger;
+            _dbContext = dbContext;
         }
 
         [HttpPost("start")]
@@ -41,7 +44,15 @@ namespace ChessSilo.Controllers
 
                 await gameGrain.StartGameAsync(playerWhiteGrain, playerBlackGrain);
 
-                _activeGames.TryAdd(gameId, $"{request.PlayerWhiteName} vs {request.PlayerBlackName}");
+                var game = new Game()
+                {
+                    GameId = gameId,
+                    Description = $"{request.PlayerWhiteName} vs {request.PlayerBlackName}"
+                };
+
+                _dbContext.Add(game);
+                int rowsAffected = await _dbContext.SaveChangesAsync();
+                _logger.LogInformation($"Rows affected: {rowsAffected}");
 
                 _logger.LogInformation("Game started successfully between {PlayerWhite} and {PlayerBlack}. GameId: {GameId}",
                     request.PlayerWhiteName, request.PlayerBlackName, gameId);
@@ -83,16 +94,35 @@ namespace ChessSilo.Controllers
             }
         }
 
-
         [HttpGet("games")]
-        public IActionResult GetActiveGames()
+        public async Task<IActionResult> GetActiveGames()
         {
-            _logger.LogInformation("Fetching active games...");
-            
-            // Log the active games to verify the structure
-            _logger.LogInformation("Active games: " + string.Join(", ", _activeGames.Select(kvp => $"GameId: {kvp.Key}, Description: {kvp.Value}")));
+            _logger.LogInformation("Fetching active games from the database...");
 
-            return Ok(_activeGames.Select(kvp => new { GameId = kvp.Key, Description = kvp.Value }).ToList());
+            try
+            {
+                // Use DateTime.UtcNow for comparison if the database stores time in UTC
+                var activeGames = await _dbContext.Games
+                    .Where(game => game.StartedOn <= DateTime.UtcNow)
+                    .Select(game => new 
+                    {
+                        GameId = game.GameId,
+                        Description = game.Description,
+                        StartedOn = game.StartedOn
+                    })
+                    .ToListAsync();
+
+                // Log the active games to verify the structure
+                _logger.LogInformation("Active games: " + string.Join(", ", activeGames.Select(game => $"GameId: {game.GameId}, Description: {game.Description}")));
+
+                // Return the result
+                return Ok(activeGames);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while fetching active games.");
+                return StatusCode(500, "An error occurred while fetching the active games.");
+            }
         }
 
         [HttpGet("board")]

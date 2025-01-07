@@ -18,7 +18,12 @@ namespace ChessSilo.Migrations
                 {
                     GameId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    StartedOn = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    StartedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Winner = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PlayerBlack = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PlayerWhite = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {

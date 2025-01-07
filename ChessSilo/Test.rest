@@ -24,10 +24,14 @@ Content-Type: application/json
 Accept: application/json
 
 {
-  "GameId": "5fee6dfa-eae6-4ef2-82bd-d0942a59ab0b",
-  "Move": "P-e2-e3"
+  "GameId": "64d2747b-3efa-4fa0-b0a2-8f413d48c466",
+  "Move": "P-e2-e3",
+  "PlayerName": "Alice"
 }
 
 ### Get Active Games
 GET http://localhost:7164/ChessGame/games
 Accept: application/json
+
+### Get board state of a game
+GET http://localhost:7164/ChessGame/board?gameId=64d2747b-3efa-4fa0-b0a2-8f413d48c466

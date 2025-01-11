@@ -57,6 +57,9 @@
     </div>
 
     <script>
+        let intervalId; // To store the interval ID
+        let currentGameId = null; // To store the gameId being updated
+
         // Fetch active games from the backend
         async function fetchActiveGames() {
             try {
@@ -110,10 +113,34 @@
             }
         }
 
+        // Start polling for board updates every 50ms
+        function startPolling(gameId) {
+            if (intervalId) {
+                clearInterval(intervalId); // Clear any previous interval
+            }
+
+            currentGameId = gameId;
+            intervalId = setInterval(() => fetchBoard(gameId), 50);
+        }
+
+        // Stop polling for board updates
+        function stopPolling() {
+            if (intervalId) {
+                clearInterval(intervalId);
+                intervalId = null;
+                currentGameId = null;
+            }
+        }
+
         // Handle the join button click
         function joinGame(gameId) {
-            // Fetch and show the chessboard for the selected game
-            fetchBoard(gameId);
+            // Stop previous polling if a new game is joined
+            if (currentGameId !== gameId) {
+                stopPolling();
+            }
+
+            // Start polling for the new game
+            startPolling(gameId);
         }
 
         // Initial call to fetch the active games when the page loads

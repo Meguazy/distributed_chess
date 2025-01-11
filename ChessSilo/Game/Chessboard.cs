@@ -1,49 +1,60 @@
 using System;
+using System.Collections.Generic;
 
 public class Chessboard
 {
-    private Piece[,] Board { get; set; }
+    public Dictionary<string, Piece?> Board { get; set; }
 
     public Chessboard()
     {
-        Board = new Piece[8, 8];
+        Board = new Dictionary<string, Piece?>();
+        InitializeBoard();
     }
 
     public void InitializeBoard()
     {
-        // Initialize the chessboard        
-        // 🟢 Place Pawns
-        for (int i = 0; i < 8; i++)
+        // Initialize the chessboard with empty squares
+        for (int row = 1; row <= 8; row++)
         {
-            Board[1, i] = new Pawn("Black"); // Black pawns on row 1
-            Board[6, i] = new Pawn("White"); // White pawns on row 6
+            for (char col = 'a'; col <= 'h'; col++)
+            {
+                string position = $"{col}{row}";
+                Board[position] = null; // Empty square
+            }
+        }
+
+        // 🟢 Place Pawns
+        for (char col = 'a'; col <= 'h'; col++)
+        {
+            Board[$"{col}2"] = new Pawn("White"); // White pawns on row 2
+            Board[$"{col}7"] = new Pawn("Black"); // Black pawns on row 7
         }
 
         // 🟢 Place Rooks
-        Board[0, 0] = new Rook("Black");
-        Board[0, 7] = new Rook("Black");
-        Board[7, 0] = new Rook("White");
-        Board[7, 7] = new Rook("White");
+        Board["a1"] = new Rook("White");
+        Board["h1"] = new Rook("White");
+        Board["a8"] = new Rook("Black");
+        Board["h8"] = new Rook("Black");
 
         // 🟢 Place Knights
-        Board[0, 1] = new Knight("Black");
-        Board[0, 6] = new Knight("Black");
-        Board[7, 1] = new Knight("White");
-        Board[7, 6] = new Knight("White");
+        Board["b1"] = new Knight("White");
+        Board["g1"] = new Knight("White");
+        Board["b8"] = new Knight("Black");
+        Board["g8"] = new Knight("Black");
 
         // 🟢 Place Bishops
-        Board[0, 2] = new Bishop("Black");
-        Board[0, 5] = new Bishop("Black");
-        Board[7, 2] = new Bishop("White");
-        Board[7, 5] = new Bishop("White");
+        Board["c1"] = new Bishop("White");
+        Board["f1"] = new Bishop("White");
+        Board["c8"] = new Bishop("Black");
+        Board["f8"] = new Bishop("Black");
 
         // 🟢 Place Queens
-        Board[0, 3] = new Queen("Black");
-        Board[7, 3] = new Queen("White");
+        Board["d1"] = new Queen("White");
+        Board["d8"] = new Queen("Black");
 
         // 🟢 Place Kings
-        Board[0, 4] = new King("Black");
-        Board[7, 4] = new King("White");
+        Board["e1"] = new King("White");
+        Board["e8"] = new King("Black");
     }
 
     public string[,] GetBoardState()
@@ -54,9 +65,14 @@ public class Chessboard
         {
             for (int col = 0; col < 8; col++)
             {
-                if (Board[row, col] != null)
+                // Convert array indices to chess notation
+                char file = (char)('a' + col); // 'a' corresponds to column 0, 'b' to 1, etc.
+                int rank = 8 - row;            // Rank is 8 at row 0, 7 at row 1, etc.
+                string position = $"{file}{rank}";
+
+                if (Board[position] != null)
                 {
-                    boardState[row, col] = Board[row, col].Type[0].ToString() + Board[row, col].Color[0].ToString();
+                    boardState[row, col] = Board[position].Type[0].ToString() + Board[position].Color[0].ToString();
                 }
                 else
                 {
@@ -68,80 +84,47 @@ public class Chessboard
         return boardState;
     }
 
-    public void ApplyMove(string move, string playerColor)
+    public void ApplyMove(string startPos, string endPos, string pieceType)
     {
-        // Example move: "P-e2-e3"
-        // Parsing the move
-        string[] parts = move.Split('-'); // Splits the move into ["P", "e2", "e3"]
-
-        if (parts.Length != 3)
-        {
-            Console.WriteLine("Invalid move format.");
-            return;
-        }
-
-        string pieceType = parts[0];   // "P" (Pawn)
-        string startPos = parts[1];    // "e2"
-        string endPos = parts[2];      // "e3"
-
-        // Extracting the starting and ending positions
-        int startFile = startPos[0] - 'a'; // 'e' -> 4 (file)
-        int startRank = 8 - (startPos[1] - '0'); // '2' -> 6 (rank, reversed)
-
-        int endFile = endPos[0] - 'a'; // 'e' -> 4 (file)
-        int endRank = 8 - (endPos[1] - '0'); // '3' -> 5 (rank, reversed)
-
         // Log the parsed move
-        Console.WriteLine($"Piece: {pieceType}, Start: {startPos} (File: {startFile}, Rank: {startRank}), End: {endPos} (File: {endFile}, Rank: {endRank})");
+        Console.WriteLine($"Piece: {pieceType}, Start: {startPos}, End: {endPos}");
 
-        // Validate the move for a Pawn (P)
-        if (pieceType == "P")
+        // Perform the move on the chessboard
+        if (Board[startPos] != null)
         {
-            // Logic to apply Pawn move (very basic implementation, can be expanded)
-            if (startFile == endFile && Math.Abs(startRank - endRank) == 1)
-            {
-                Console.WriteLine($"Pawn moved from {startPos} to {endPos}");
-
-                // Perform the move on the chessboard
-                Board[endRank, endFile] = Board[startRank, startFile]; // Move the pawn
-                Board[startRank, startFile] = null; // Remove the pawn from the start position
-
-                // Update board logic would go here, like marking the piece's new position on the board.
-            }
-            else
-            {
-                Console.WriteLine($"Invalid Pawn move from {startPos} to {endPos}");
-            }
+            Console.WriteLine($"Piece in start position: {Board[startPos].Type} at {startPos}");
         }
         else
         {
-            // Handle other piece types (Rook, Knight, Bishop, etc.)
-            Console.WriteLine("Only Pawn moves are handled for now.");
+            Console.WriteLine($"No piece at start position: {startPos}");
         }
-    }
+        if (Board[endPos] != null)
+        {
+            Console.WriteLine($"Piece in end position: {Board[endPos].Type} at {endPos}");
+        }
+        else
+        {
+            Console.WriteLine($"No piece at end position: {endPos}");
+        }
 
-
-    public bool IsCorrectPieceForPlayer(string square, string playerColor)
-    {
-        // Check if the piece at the given square belongs to the player
-        return true;
-    }
-
-    public Piece GetPieceAt(string square)
-    {
-        // Get the piece at the given square
-        return new Pawn("Black");
-    }
-
-    public bool IsSquareOccupied(string square)
-    {
-        // Check if the square is occupied by a piece
-        return true;
-    }
-
-    public bool IsPathClear(string startSquare, string endSquare)
-    {
-        // Check if the path between start and end squares is clear
-        return true;
+        Board[endPos] = Board[startPos]; // Move the piece to the end position
+        Board[startPos] = null;          // Remove the piece from the start position
+        
+        if (Board[startPos] != null)
+        {
+            Console.WriteLine($"Piece in start position: {Board[startPos].Type} at {startPos}");
+        }
+        else
+        {
+            Console.WriteLine($"No piece at start position: {startPos}");
+        }
+        if (Board[endPos] != null)
+        {
+            Console.WriteLine($"Piece in end position: {Board[endPos].Type} at {endPos}");
+        }
+        else
+        {
+            Console.WriteLine($"No piece at end position: {endPos}");
+        }
     }
 }

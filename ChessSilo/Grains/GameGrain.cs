@@ -1,10 +1,11 @@
 using Orleans;
+using System;
 using System.Threading.Tasks;
 using System.Threading;
 
 public class GameGrain : Grain, IGameGrain
 {
-    private ChessGame _chessGame;
+    private ChessGame? _chessGame;
 
     public override async Task OnActivateAsync(CancellationToken cancellationToken)
     {   
@@ -31,14 +32,21 @@ public class GameGrain : Grain, IGameGrain
 
     public Task<bool> MakeMoveAsync(string move)
     {
+        if (_chessGame == null)
+        {
+            throw new InvalidOperationException("The game has not been started.");
+        }
         return Task.FromResult(_chessGame.MakeMove(move));
     }
 
     public async Task<string[,]> GetBoardStateAsync()
     {   
+        if (_chessGame == null)
+        {
+            throw new InvalidOperationException("The game has not been started.");
+        }
+
         Chessboard _chessboard = _chessGame.Chessboard;
         return _chessboard.GetBoardState(); // Assuming _chessboard is your Chessboard instance
-    }
-
-    
+    }   
 }

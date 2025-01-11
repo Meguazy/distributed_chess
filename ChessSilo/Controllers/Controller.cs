@@ -20,9 +20,7 @@ namespace ChessSilo.Controllers
         private readonly IClusterClient _clusterClient;
         private readonly ILogger<ChessGameController> _logger;
         private readonly GamesContext _dbContext;
-        
         private readonly IDatabase _redisDatabase;
-
         private readonly CacheInvalidationService _cacheInvalidationService;
 
         public ChessGameController(IClusterClient clusterClient, ILogger<ChessGameController> logger, GamesContext dbContext, CacheInvalidationService cacheInvalidationService, IDatabase redisDatabase)
@@ -214,24 +212,26 @@ namespace ChessSilo.Controllers
                 }
                 return Ok(boardStateList);
             }
-
-            var boardState = await gameGrain.GetBoardStateAsync();  // Await the async call to get the board state
-            _logger.LogInformation("BOARD STATE:\n{BoardState}", boardState);  // Use the parameterized log format to log the boardState
-
-            for (int i = 0; i < boardState.GetLength(0); i++)
+            else
             {
-                var row = new List<string>();
-                for (int j = 0; j < boardState.GetLength(1); j++)
+                var boardState = await gameGrain.GetBoardStateAsync();  // Await the async call to get the board state
+                _logger.LogInformation("BOARD STATE:\n{BoardState}", boardState);  // Use the parameterized log format to log the boardState
+
+                for (int i = 0; i < boardState.GetLength(0); i++)
                 {
-                    row.Add(boardState[i, j]);
+                    var row = new List<string>();
+                    for (int j = 0; j < boardState.GetLength(1); j++)
+                    {
+                        row.Add(boardState[i, j]);
+                    }
+                    boardStateList.Add(row);
                 }
-                boardStateList.Add(row);
+
+                // Cache the board state
+                await _redisDatabase.StringSetAsync(cacheKey, JsonConvert.SerializeObject(boardStateList), TimeSpan.FromMinutes(5));
+
+                return Ok(boardStateList);  // Return the list of lists
             }
-
-            // Cache the board state
-            await _redisDatabase.StringSetAsync(cacheKey, JsonConvert.SerializeObject(boardStateList), TimeSpan.FromMinutes(5));
-
-            return Ok(boardStateList);  // Return the list of lists
         }
 
     }

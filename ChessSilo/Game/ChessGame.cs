@@ -1,3 +1,5 @@
+using System;
+
 public class ChessGame
 {
     public Player PlayerWhite { get; set; }
@@ -10,19 +12,27 @@ public class ChessGame
         PlayerWhite = playerWhite;
         PlayerBlack = playerBlack;
         Chessboard = chessboard;
+        CurrentPlayer = "White"; // Initialize with a default value
     }
 
     public void StartGame()
     {
-        CurrentPlayer = "White"; // White player starts
         Chessboard.InitializeBoard();
     }
 
     public bool MakeMove(string move)
-    {
-        if (MoveValidator.ValidateMove(move, Chessboard, CurrentPlayer))
+    {   
+        // Parsing the move
+        string[] parts = move.Split('-');
+
+        string pieceType = parts[0];
+        string startPos = parts[1];
+        string endPos = parts[2];
+
+        if (MoveValidator.ValidateMove(move, startPos, endPos, Chessboard, CurrentPlayer, pieceType))
         {
-            Chessboard.ApplyMove(move, CurrentPlayer);
+            Console.WriteLine($"Valid move: {move}");
+            Chessboard.ApplyMove(startPos, endPos, CurrentPlayer);
             CurrentPlayer = CurrentPlayer == "White" ? "Black" : "White";
             return true;
         }

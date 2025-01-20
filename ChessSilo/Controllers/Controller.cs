@@ -43,14 +43,6 @@ namespace ChessSilo.Controllers
             try
             {
                 var gameId = Guid.NewGuid();
-                var gameGrain = _clusterClient.GetGrain<IGameGrain>(gameId);
-                var playerWhiteGrain = _clusterClient.GetGrain<IPlayerGrain>(Guid.NewGuid());
-                var playerBlackGrain = _clusterClient.GetGrain<IPlayerGrain>(Guid.NewGuid());
-
-                await playerWhiteGrain.SetNameAsync(request.PlayerWhiteName);
-                await playerBlackGrain.SetNameAsync(request.PlayerBlackName);
-
-                await gameGrain.StartGameAsync(playerWhiteGrain, playerBlackGrain);
 
                 var game = new Game()
                 {
@@ -70,6 +62,15 @@ namespace ChessSilo.Controllers
                 _logger.LogInformation("Game started successfully between {PlayerWhite} and {PlayerBlack}. GameId: {GameId}",
                     request.PlayerWhiteName, request.PlayerBlackName, gameId);
 
+                var gameGrain = _clusterClient.GetGrain<IGameGrain>(gameId);
+                var playerWhiteGrain = _clusterClient.GetGrain<IPlayerGrain>(Guid.NewGuid());
+                var playerBlackGrain = _clusterClient.GetGrain<IPlayerGrain>(Guid.NewGuid());
+
+                await playerWhiteGrain.SetNameAsync(request.PlayerWhiteName);
+                await playerBlackGrain.SetNameAsync(request.PlayerBlackName);
+
+                await gameGrain.StartGameAsync(playerWhiteGrain, playerBlackGrain);
+                
                 return Ok(new { GameId = gameId });
             }
             catch (Exception ex)

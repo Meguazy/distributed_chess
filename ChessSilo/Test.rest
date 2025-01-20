@@ -1,0 +1,48 @@
+### Start a New Game
+POST http://localhost:7164/ChessGame/start
+Content-Type: application/json
+Accept: application/json
+
+{
+  "PlayerWhiteName": "Alice",
+  "PlayerBlackName": "Bob"
+}
+
+### Start a new game
+POST http://localhost:7164/ChessGame/start
+Content-Type: application/json
+Accept: application/json
+
+{
+  "PlayerWhiteName": "Brock",
+  "PlayerBlackName": "Lesnar"
+}
+
+### Make a Move in an Existing Game
+POST http://localhost:7164/ChessGame/move
+Content-Type: application/json
+Accept: application/json
+
+{
+  "GameId": "15b3d649-c9f8-46ce-8ec9-c4e04303cebf",
+  "Move": "P-e2-e3",
+  "PlayerName": "Alice"
+}
+
+### Make a Move in an Existing Game
+POST http://localhost:7164/ChessGame/move
+Content-Type: application/json
+Accept: application/json
+
+{
+  "GameId": "15b3d649-c9f8-46ce-8ec9-c4e04303cebf",
+  "Move": "K-g8-f6",
+  "PlayerName": "Bob"
+}
+
+### Get Active Games
+GET http://localhost:7164/ChessGame/games
+Accept: application/json
+
+### Get board state of a game
+GET http://localhost:7164/ChessGame/board?gameId=8f822242-f692-48e3-b244-3292c68fc076

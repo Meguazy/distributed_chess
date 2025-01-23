@@ -32,7 +32,7 @@ The cache has a 5-minute expiration time and is invalidated whenever a new move 
 The game information, such as player names, start and end dates, winner, and status, is stored in an Azure SQL Edge database. This dedicated data store separates the transactional game state (handled by the Orleans grains) from the more static player and game metadata.  
 The database credentials are securely stored using Hashicorp Vault, following best practices for secure data management.
 
-## Database Schema
+#### Database Schema
 
 The database is structured to store essential game information effectively:
 

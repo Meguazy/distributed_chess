@@ -9,7 +9,7 @@ This project is a distributed web application designed to bring the classic game
 
 ### Actor Model with Microsoft Orleans
 The backend architecture revolves around the actor model, implemented using Microsoft Orleans:
-- **Grains:** Each player and game is represented as a grain, encapsulating their respective state and logic.
+- **Player Grains:** Each player and game is represented as a grain, encapsulating their respective state and logic.
 - **Game Grains:** Each game grain depends on two player grains to operate seamlessly, ensuring isolation and scalability.
 
 ### Frontend

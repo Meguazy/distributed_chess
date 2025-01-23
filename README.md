@@ -86,4 +86,4 @@ Contributions are highly encouraged. If you have ideas for improvements or new f
 
 ## License
 
-This project is licensed under the MIT License. For details, see the `LICENSE` file included in the repository.
+This project is licensed under the Apache 2.0 License. For details, see the `LICENSE` file included in the repository.

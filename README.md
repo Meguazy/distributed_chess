@@ -82,7 +82,7 @@ To run the project, ensure the following tools and services are installed:
    dotnet run
    ```
 
-6. You can open the front end by navigatin to:
+6. You can open the front end by navigating to:
    ```
    http://localhost:7164
    ```

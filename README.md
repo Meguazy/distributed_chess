@@ -20,6 +20,10 @@ The distributed design of the system ensures modularity and scalability. Grains 
 
 The chess-playing experience is streamlined into clear workflows. When a user starts a new game, the frontend triggers the backend to create grains for the game and players, storing metadata in the database for persistence. Players can join active games and interact with the chessboard via the frontend, which polls the backend for updates every 40ms. Moves are validated by the backend, updating the game state, invalidating the cache, and committing changes to the database within a transaction to ensure consistency. 
 
+The workflow is illustrated in the diagram below:
+
+![Workflow Diagram](schema.png)
+
 ## Database Schema
 
 The database is structured to store essential game information effectively:

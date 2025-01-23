@@ -1,28 +1,36 @@
 # Distributed Chess Website
 
 ## Overview
+This project is a distributed web application that allows users to play chess online. It leverages several powerful technologies to create a scalable and performant system:
 
-This project demonstrates a distributed web application designed for playing chess, leveraging modern technologies for scalability and efficiency. It employs Microsoft Orleans for its actor-based architecture, Redis for caching, Azure SQL Edge for database management, and HashiCorp Vault for credential security. Together, these technologies enable real-time chess gameplay while adhering to key distributed systems principles like asynchronous communication, state management, and transactional integrity.
+- **Microsoft Orleans**: An open-source framework for building distributed applications, used to implement the core game logic using the actor model.
+- **Redis Cache**: Used to cache the chessboard state, enabling faster updates to the frontend.
+- **Azure SQL Edge**: A lightweight, containerized database used to persistently store game information.
+- **Hashicorp Vault**: Employed to securely store the database credentials.
 
-## Core Features
+By utilizing these technologies, the project aims to deliver a seamless and responsive online chess experience for users.
 
-The application is architected around Microsoft Orleans’ actor model. Grains encapsulate the state and behavior of individual chess players and games, ensuring scalability and fault isolation. The frontend provides an intuitive interface for users to create games, join ongoing matches, and play in real-time with updates delivered every 40ms for seamless interaction. Redis ensures quick response times by caching chessboard states, which are automatically invalidated after each move to maintain consistency. Persistent game data, including player details, metadata, and results, is securely stored in Azure SQL Edge, with credentials managed by HashiCorp Vault to enhance security. 
+## Architecture
 
-## Technologies
-
-The backend integrates Microsoft Orleans, Redis, Azure SQL Edge, and HashiCorp Vault, while the frontend facilitates user interaction. Redis improves the performance of real-time gameplay by enabling low-latency data retrieval. Azure SQL Edge handles the reliable storage of game metadata. These technologies work cohesively to deliver an efficient and secure chess-playing platform.
-
-## System Architecture
-
-The distributed design of the system ensures modularity and scalability. Grains in Microsoft Orleans represent individual players and games, communicating asynchronously to maintain state and behavior. Redis acts as an intermediary for caching frequently accessed states, and Azure SQL Edge stores game information persistently. HashiCorp Vault secures sensitive data, such as database credentials. A lightweight frontend connects players to the backend, ensuring a user-friendly experience.
-
-## Workflow
-
-The chess-playing experience is streamlined into clear workflows. When a user starts a new game, the frontend triggers the backend to create grains for the game and players, storing metadata in the database for persistence. Players can join active games and interact with the chessboard via the frontend, which polls the backend for updates every 40ms. Moves are validated by the backend, updating the game state, invalidating the cache, and committing changes to the database within a transaction to ensure consistency. 
-
-The workflow is illustrated in the diagram below:
+The distributed architecture of this project consists of several key components that are briefly shown in the following diagram
 
 ![Workflow Diagram](schema.png)
+
+Let's now dive deeper into the various components.
+
+### Players and Games
+The player and game logic are implemented using Orleans grains. This allows for a scalable and fault-tolerant management of the game state, as each player and game instance is encapsulated as an independent actor.
+
+### Frontend
+The frontend is a simple web application that allows users to start a new game or join an existing one. It communicates with the backend using HTTP requests to retrieve the latest chessboard state and send user moves.
+
+### Caching
+To optimize performance, Redis cache is used to store the chessboard state. The frontend polls the backend every 40 milliseconds to retrieve the latest board state. By caching this data in-memory, the system can respond much faster, improving the overall user experience.  
+The cache has a 5-minute expiration time and is invalidated whenever a new move is made, ensuring the data remains fresh and consistent.
+
+### Database
+The game information, such as player names, start and end dates, winner, and status, is stored in an Azure SQL Edge database. This dedicated data store separates the transactional game state (handled by the Orleans grains) from the more static player and game metadata.  
+The database credentials are securely stored using Hashicorp Vault, following best practices for secure data management.
 
 ## Database Schema
 

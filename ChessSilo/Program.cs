@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System;
 using ChessSilo.Persistence;
 using StackExchange.Redis;
+using DotNetEnv;
 
 namespace ChessSilo
 {
@@ -20,8 +21,20 @@ namespace ChessSilo
     {
         public static async Task Main(string[] args)
         {
-            // Initialize one of the several auth methods.
-            IAuthMethodInfo authMethod = new TokenAuthMethodInfo("testtoken");
+            // Load environment variables from the .env file
+            Env.Load();
+
+            // Fetch the Vault token from the environment variables
+            string vaultToken = Environment.GetEnvironmentVariable("VAULT_DEV_ROOT_TOKEN_ID");
+
+            if (string.IsNullOrEmpty(vaultToken))
+            {
+                Console.WriteLine("Vault token is missing from the environment.");  
+                return;
+            }
+
+            // Initialize the Vault authentication method
+            IAuthMethodInfo authMethod = new TokenAuthMethodInfo(vaultToken);
 
             // Initialize settings. You can also set proxies, custom delegates etc. here.
             var vaultClientSettings = new VaultClientSettings("http://localhost:8200", authMethod);

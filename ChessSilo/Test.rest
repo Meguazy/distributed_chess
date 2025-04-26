@@ -24,7 +24,7 @@ Content-Type: application/json
 Accept: application/json
 
 {
-  "GameId": "15b3d649-c9f8-46ce-8ec9-c4e04303cebf",
+  "GameId": "f5b5582f-252d-44e4-9d23-6de31e44cef8",
   "Move": "P-e2-e3",
   "PlayerName": "Alice"
 }
@@ -35,8 +35,19 @@ Content-Type: application/json
 Accept: application/json
 
 {
-  "GameId": "15b3d649-c9f8-46ce-8ec9-c4e04303cebf",
-  "Move": "K-g8-f6",
+  "GameId": "f5b5582f-252d-44e4-9d23-6de31e44cef8",
+  "Move": "P-e7-e6",
+  "PlayerName": "Bob"
+}
+
+### Make a Move in an Existing Game
+POST http://localhost:7164/ChessGame/move
+Content-Type: application/json
+Accept: application/json
+
+{
+  "GameId": "a0e16274-d69f-4947-b36a-f3dd2501b9b2",
+  "Move": "K-g1-f3",
   "PlayerName": "Bob"
 }
 

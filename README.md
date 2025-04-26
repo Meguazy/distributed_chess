@@ -75,6 +75,10 @@ To run the project, ensure the following tools and services are installed:
 4. Build the app:
    ```bash
    dotnet build
+   export VAULT_TOKEN=secret_token
+   export VAULT_ADDR='http://0.0.0.0:8200'
+   vault secrets enable -path=database kv-v2
+   vault kv put database/configs username="sa" password="4316"
    ```
 
 5. Start the app:

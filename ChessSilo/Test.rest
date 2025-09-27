@@ -24,7 +24,7 @@ Content-Type: application/json
 Accept: application/json
 
 {
-  "GameId": "f5b5582f-252d-44e4-9d23-6de31e44cef8",
+  "GameId": "ecaf86ee-05da-4cac-846c-307acc7dd66d",
   "Move": "P-e2-e3",
   "PlayerName": "Alice"
 }
@@ -35,7 +35,7 @@ Content-Type: application/json
 Accept: application/json
 
 {
-  "GameId": "f5b5582f-252d-44e4-9d23-6de31e44cef8",
+  "GameId": "ecaf86ee-05da-4cac-846c-307acc7dd66d",
   "Move": "P-e7-e6",
   "PlayerName": "Bob"
 }
@@ -56,4 +56,4 @@ GET http://localhost:7164/ChessGame/games
 Accept: application/json
 
 ### Get board state of a game
-GET http://localhost:7164/ChessGame/board?gameId=8f822242-f692-48e3-b244-3292c68fc076
+GET http://localhost:7164/ChessGame/board?gameId=ecaf86ee-05da-4cac-846c-307acc7dd66d

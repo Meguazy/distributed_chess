@@ -92,10 +92,6 @@ To run the project, ensure the following tools and services are installed:
    ```
    You will be automatically redirected to 
 
-## Contributions
-
-Contributions are highly encouraged. If you have ideas for improvements or new features, please submit an issue or a pull request.
-
 ## License
 
 This project is licensed under the Apache 2.0 License. For details, see the `LICENSE` file included in the repository.

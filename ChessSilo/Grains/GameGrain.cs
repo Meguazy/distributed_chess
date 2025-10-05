@@ -40,13 +40,13 @@ public class GameGrain : Grain, IGameGrain
     }
 
     public async Task<string[,]> GetBoardStateAsync()
-    {   
+    {
         if (_chessGame == null)
         {
             throw new InvalidOperationException("The game has not been started.");
         }
 
         Chessboard _chessboard = _chessGame.Chessboard;
-        return _chessboard.GetBoardState();
+        return await Task.FromResult(_chessboard.GetBoardState());
     }   
 }

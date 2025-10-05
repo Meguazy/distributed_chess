@@ -72,7 +72,7 @@ public class Chessboard
 
                 if (Board[position] != null)
                 {
-                    boardState[row, col] = Board[position].Type[0].ToString() + Board[position].Color[0].ToString();
+                    boardState[row, col] = Board[position]!.Type[0].ToString() + Board[position]!.Color[0].ToString();
                 }
                 else
                 {
@@ -92,7 +92,7 @@ public class Chessboard
         // Perform the move on the chessboard
         if (Board[startPos] != null)
         {
-            Console.WriteLine($"Piece in start position: {Board[startPos].Type} at {startPos}");
+            Console.WriteLine($"Piece in start position: {Board[startPos]!.Type} at {startPos}");
         }
         else
         {
@@ -100,7 +100,7 @@ public class Chessboard
         }
         if (Board[endPos] != null)
         {
-            Console.WriteLine($"Piece in end position: {Board[endPos].Type} at {endPos}");
+            Console.WriteLine($"Piece in end position: {Board[endPos]!.Type} at {endPos}");
         }
         else
         {
@@ -112,7 +112,7 @@ public class Chessboard
         
         if (Board[startPos] != null)
         {
-            Console.WriteLine($"Piece in start position: {Board[startPos].Type} at {startPos}");
+            Console.WriteLine($"Piece in start position: {Board[startPos]!.Type} at {startPos}");
         }
         else
         {
@@ -120,7 +120,7 @@ public class Chessboard
         }
         if (Board[endPos] != null)
         {
-            Console.WriteLine($"Piece in end position: {Board[endPos].Type} at {endPos}");
+            Console.WriteLine($"Piece in end position: {Board[endPos]!.Type} at {endPos}");
         }
         else
         {

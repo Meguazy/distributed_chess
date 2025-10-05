@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 public class PlayerGrain : Grain, IPlayerGrain
 {
-    private string _name;
+    private string _name = string.Empty;
 
     public Task<string> GetNameAsync() => Task.FromResult(_name);
 

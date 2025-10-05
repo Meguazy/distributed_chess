@@ -47,6 +47,6 @@ public class GameGrain : Grain, IGameGrain
         }
 
         Chessboard _chessboard = _chessGame.Chessboard;
-        return _chessboard.GetBoardState(); // Assuming _chessboard is your Chessboard instance
+        return _chessboard.GetBoardState();
     }   
 }

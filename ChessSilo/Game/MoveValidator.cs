@@ -16,21 +16,21 @@ public static class MoveValidator
         }
 
         // Validate if the start position contains the correct piece
-        if (!board.ContainsKey(startPos) || board[startPos] == null)
+        if (!board.ContainsKey(startPos) || board[startPos]! == null)
         {
             Console.WriteLine($"No piece found at {startPos}.");
             return false;
         }
 
-        if(board.ContainsKey(endPos) && board[endPos] != null && board[endPos].Color == playerColor)
+        if(board.ContainsKey(endPos) && board[endPos]! != null && board[endPos]!.Color == playerColor)
         {
             Console.WriteLine($"Cannot capture your own piece at {endPos}.");
             return false;
         }
 
-        if (board[startPos].Type[0].ToString() != pieceType || board[startPos].Color != playerColor)
+        if (board[startPos]!.Type[0].ToString() != pieceType || board[startPos]!.Color != playerColor)
         {
-            Console.WriteLine($"The piece at {startPos} is not a {playerColor}'s {board[startPos].Type[0]}.");
+            Console.WriteLine($"The piece at {startPos} is not a {playerColor}'s {board[startPos]!.Type[0]}.");
             return false;
         }
 

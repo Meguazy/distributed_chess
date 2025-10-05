@@ -209,7 +209,7 @@ namespace ChessSilo.Controllers
                 _logger.LogInformation("Returning cached board state for GameId: {GameId}", gameGuid);
                 if (cachedBoardState.HasValue)
                 {
-                    boardStateList = JsonConvert.DeserializeObject<List<List<string>>>(cachedBoardState);
+                    boardStateList = JsonConvert.DeserializeObject<List<List<string>>>(cachedBoardState!);
                 }
                 return Ok(boardStateList);
             }

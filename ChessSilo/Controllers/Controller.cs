@@ -98,7 +98,7 @@ namespace ChessSilo.Controllers
                 if (isGameOver)
                 {
                     // End the game and update status in the database
-                    await EndGameAsync(request.GameId, request.PlayerName);  // Replace with actual winner
+                    await EndGameAsync(request.GameId, request.PlayerName); 
                     return Ok("Game over.");
                 }
 

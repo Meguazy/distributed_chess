@@ -23,36 +23,36 @@ public class Chessboard
             }
         }
 
-        // 🟢 Place Pawns
+        // Place Pawns
         for (char col = 'a'; col <= 'h'; col++)
         {
             Board[$"{col}2"] = new Pawn("White"); // White pawns on row 2
             Board[$"{col}7"] = new Pawn("Black"); // Black pawns on row 7
         }
 
-        // 🟢 Place Rooks
+        // Place Rooks
         Board["a1"] = new Rook("White");
         Board["h1"] = new Rook("White");
         Board["a8"] = new Rook("Black");
         Board["h8"] = new Rook("Black");
 
-        // 🟢 Place Knights
+        // Place Knights
         Board["b1"] = new Knight("White");
         Board["g1"] = new Knight("White");
         Board["b8"] = new Knight("Black");
         Board["g8"] = new Knight("Black");
 
-        // 🟢 Place Bishops
+        // Place Bishops
         Board["c1"] = new Bishop("White");
         Board["f1"] = new Bishop("White");
         Board["c8"] = new Bishop("Black");
         Board["f8"] = new Bishop("Black");
 
-        // 🟢 Place Queens
+        // Place Queens
         Board["d1"] = new Queen("White");
         Board["d8"] = new Queen("Black");
 
-        // 🟢 Place Kings
+        // Place Kings
         Board["e1"] = new King("White");
         Board["e8"] = new King("Black");
     }

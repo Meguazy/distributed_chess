@@ -14,7 +14,7 @@ public abstract class Piece
     public abstract bool IsValidMove(string move, Chessboard board);
 }
 
-// 🟢 Pawn
+// Pawn
 public class Pawn : Piece
 {
     public Pawn(string color) : base(color, "Pawn") { }
@@ -29,7 +29,7 @@ public class Pawn : Piece
     }
 }
 
-// 🟢 Rook
+// Rook
 public class Rook : Piece
 {
     public Rook(string color) : base(color, "Rook") { }
@@ -42,7 +42,7 @@ public class Rook : Piece
     }
 }
 
-// 🟢 Knight
+// Knight
 public class Knight : Piece
 {
     public Knight(string color) : base(color, "Knight") { }
@@ -55,7 +55,7 @@ public class Knight : Piece
     }
 }
 
-// 🟢 Bishop
+// Bishop
 public class Bishop : Piece
 {
     public Bishop(string color) : base(color, "Bishop") { }
@@ -68,7 +68,7 @@ public class Bishop : Piece
     }
 }
 
-// 🟢 Queen
+// Queen
 public class Queen : Piece
 {
     public Queen(string color) : base(color, "Queen") { }
@@ -81,7 +81,7 @@ public class Queen : Piece
     }
 }
 
-// 🟢 King
+// King
 public class King : Piece
 {
     public King(string color) : base(color, "King") { }

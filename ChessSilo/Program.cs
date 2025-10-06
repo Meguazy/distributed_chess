@@ -32,7 +32,7 @@ namespace ChessSilo
 
             // Fetch the Vault token from the environment variables
             Console.WriteLine("Fetching Vault token from environment variables...");
-            string vaultToken = Environment.GetEnvironmentVariable("VAULT_DEV_ROOT_TOKEN_ID");
+            string? vaultToken = Environment.GetEnvironmentVariable("VAULT_DEV_ROOT_TOKEN_ID");
 
             if (string.IsNullOrEmpty(vaultToken))
             {
